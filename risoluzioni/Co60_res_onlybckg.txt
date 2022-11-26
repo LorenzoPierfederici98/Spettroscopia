@@ -1,8 +1,9 @@
-2022-11-26 12:29:27,618:INFO:calibrazione energia 1164.732 +- 7.743
+2022-11-26 12:29:27,618:INFO:calibrazione energia 1164.732 +- 7.743 keV
 
 2022-11-26 12:29:27,618:INFO:Risoluzione energetica Co60 = 5.296 +- 0.163 %
 
-2022-11-26 12:30:17,936:INFO:calibrazione energia 1319.773 +- 8.836
+
+2022-11-26 12:30:17,936:INFO:calibrazione energia 1319.773 +- 8.836 keV
 
 2022-11-26 12:30:17,940:INFO:Risoluzione energetica Co60 = 5.142 +- 0.144 %
 
