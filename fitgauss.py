@@ -13,7 +13,7 @@ ampiezza ed offset.
 """
 
 PATH = 'C:/Users/Lorenzo/Desktop/Lab/Spettroscopia/spettri'  # percorso dei file .txt
-NOME_SPETTRO = 'Am241_1.txt'  # modificare con il nome del file
+NOME_SPETTRO = 'Ba133_1.txt'  # modificare con il nome del file
 PATH = os.path.join(PATH, NOME_SPETTRO)
 
 # mette i risultati del fit nel file NOME_SPETTROlog.txt
@@ -30,13 +30,13 @@ channels = np.array([i for i in range(0, 2048)],
 #Cs_1: 790-940 
 
 # canali vicino al picco, da n a n_max-1
-channels1 = np.array([channels[i] for i in range(69, 110)], dtype=float)
-counts1 = np.array([counts[i] for i in range(69, 110)], dtype=float)
+channels1 = np.array([channels[i] for i in range(441, 545)], dtype=float)
+counts1 = np.array([counts[i] for i in range(441, 545)], dtype=float)
 
 PATH_LOGS = 'C:/Users/Lorenzo/Desktop/Lab/Spettroscopia/logs'
 NOME_LOG = NOME_SPETTRO.replace('.txt', '.log.txt')
 PATH_LOGS = os.path.join(PATH_LOGS, NOME_LOG)
-init_values = [np.loadtxt(PATH_LOGS, skiprows=1, usecols=(0, 2, 4, 6),
+init_values = [np.loadtxt(PATH_LOGS, skiprows=4, usecols=(0, 2, 4, 6),
                           max_rows=1, unpack=True)]
 
 def gaussiana(x, mu, sigma, A, B):

@@ -51,6 +51,8 @@ dm, dsigma, dA, dB = np.sqrt(F.covm.diagonal())
 A = int(np.floor(mu0 - 3*sigma0))
 B = int(np.floor(mu0 + 3*sigma0))
 
+A = 445
+
 #numero di canali da mediare prima di A e dopo B
 m = 5
 
@@ -142,7 +144,7 @@ plt.xlabel('Channels [UA]')
 plt.ylabel('Counts [UA]')
 plt.plot(channels, counts, marker='o', color='b', label='Dati')
 plt.plot(channels, background, marker = 'o', label = 'Fondo true')
-plt.plot(x, retta, marker = 'o', label = 'Retta fra i punti a $\pm$ $3\sigma$ dal picco')
+plt.plot(x, retta, marker = 'o', label = 'Retta fra la media dei punti a $\pm$ $3\sigma$ dal picco')
 plt.plot(channels_restrict, spettro_netto, marker = 'o', label = 'Spettro al netto di fondo e continuum')
 plt.minorticks_on()
 plt.legend()
