@@ -51,8 +51,6 @@ dm, dsigma, dA, dB = np.sqrt(F.covm.diagonal())
 A = int(np.floor(mu0 - 3*sigma0))
 B = int(np.floor(mu0 + 3*sigma0))
 
-A = 445
-
 #numero di canali da mediare prima di A e dopo B
 m = 5
 
