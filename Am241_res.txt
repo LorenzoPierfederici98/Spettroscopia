@@ -1,0 +1,4 @@
+2022-11-26 12:41:15,519:INFO:calibrazione energia 61.568 +- 1.359
+
+2022-11-26 12:41:15,519:INFO:Risoluzione energetica Am241 = 13.995 +- 0.914 %
+

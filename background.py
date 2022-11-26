@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 from scipy.signal import find_peaks
 
 PATH = 'C:/Users/Lorenzo/Desktop/Lab/Spettroscopia/spettri/'  # percorso dei file .txt
-NOME_SPETTRO = 'Ba133_1.txt'  # modificare con il nome del file
+NOME_SPETTRO = 'Cs137_3.txt'  # modificare con il nome del file
 PATH_SPETTRO = os.path.join(PATH, NOME_SPETTRO)
 
 # salta i commenti ed acquisice i conteggi dei canali 0-2047
@@ -18,18 +18,20 @@ PATH_BCKG = os.path.join(PATH, NOME_BCKG)
 
 background = np.loadtxt(PATH_BCKG, skiprows=12, max_rows=2048, unpack=True)
 
-NOME_SPETTRO = NOME_SPETTRO.replace('_2.txt', '')
-NOME_SPETTRO = NOME_SPETTRO.replace('_1.txt', '')
+NOME_SPETTRO = NOME_SPETTRO.replace('_3.txt', '')
+#NOME_SPETTRO = NOME_SPETTRO.replace('_1.txt', '')
 
 #live time di acquisizione del background e dei radionuclidi
 LIVE_TIME_BCKG = 54437
 LIVE_TIME = {'Am241': 271, 'Ba133': 233,
              'Co60': 344, 'Na22': 1517, 'Cs137': 194}
-
+LIVE_TIME_Cs3 = 1380
 #il background è riscalato con il rapporto fra il live time della
 #misura dello spettro ed il live time della misura del fondo senza
 #sorgente
-background = background * LIVE_TIME[NOME_SPETTRO]/LIVE_TIME_BCKG
+
+#background = background * LIVE_TIME[NOME_SPETTRO]/LIVE_TIME_BCKG
+background = background * LIVE_TIME_Cs3/LIVE_TIME_BCKG
 
 def find_delta(channels, counts):
     """Trova la delta ottimale per il filtro gaussiano di convoluzione, ovvero quella per cui 

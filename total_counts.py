@@ -3,7 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 PATH = 'C:/Users/Lorenzo/Desktop/Lab/Spettroscopia/spettri'#percorso dei file .txt
-NOME_SPETTRO = 'Ba133_1.txt' #modificare con il nome del file
+NOME_SPETTRO = 'Cs137_3.txt' #modificare con il nome del file
 PATH = os.path.join(PATH, NOME_SPETTRO)
 
 counts = np.loadtxt(PATH, skiprows=12, max_rows=2048, unpack = True) #salta i commenti ed acquisice i conteggi dei canali 0-2047
