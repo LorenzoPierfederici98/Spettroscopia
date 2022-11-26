@@ -1,4 +1,4 @@
-2022-11-26 12:44:23,030:INFO:calibrazione energia 667.461 +- 4.290
+2022-11-26 12:44:23,030:INFO:calibrazione energia 667.461 +- 4.290 keV
 
 2022-11-26 12:44:23,030:INFO:Risoluzione energetica Cs137 = 7.156 +- 0.222 %
 

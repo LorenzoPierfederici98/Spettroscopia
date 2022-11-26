@@ -1,16 +1,19 @@
-2022-11-26 12:19:37,472:INFO:calibrazione energia 28.384 +- 1.422
+2022-11-26 12:19:37,472:INFO:calibrazione energia 28.384 +- 1.422 keV
 
 2022-11-26 12:19:37,476:INFO:Risoluzione energetica Ba133 = 20.530 +- 1.818 %
 
-2022-11-26 12:21:03,144:INFO:calibrazione energia 85.223 +- 1.339
+
+2022-11-26 12:21:03,144:INFO:calibrazione energia 85.223 +- 1.339 keV
 
 2022-11-26 12:21:03,144:INFO:Risoluzione energetica Ba133 = 11.796 +- 0.853 %
 
-2022-11-26 12:23:49,563:INFO:calibrazione energia 309.128 +- 2.022
+
+2022-11-26 12:23:49,563:INFO:calibrazione energia 309.128 +- 2.022 keV
 
 2022-11-26 12:23:49,564:INFO:Risoluzione energetica Ba133 = 14.162 +- 1.195 %
 
-2022-11-26 12:25:03,643:INFO:calibrazione energia 368.090 +- 2.355
+
+2022-11-26 12:25:03,643:INFO:calibrazione energia 368.090 +- 2.355 keV
 
 2022-11-26 12:25:03,643:INFO:Risoluzione energetica Ba133 = 9.116 +- 0.375 %
 
