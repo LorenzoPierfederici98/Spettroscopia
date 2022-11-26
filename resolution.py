@@ -43,8 +43,8 @@ DRISOLUZIONE = 2.35*np.sqrt((dsigma/x) **
 
 NOME_SPETTRO = NOME_SPETTRO.replace('_res.txt', '')
 
-logging.info(f'calibrazione energia {ener_calibration:.3f} +- {dener_calibration:.3f}\n')
+logging.info(f'calibrazione energia {ener_calibration:.3f} +- {dener_calibration:.3f} keV\n')
 logging.info(f'Risoluzione energetica {NOME_SPETTRO} = {100*RISOLUZIONE:.3f} +- {100*DRISOLUZIONE:.3f} %\n')
 
-print(f'calibrazione energia {ener_calibration:.3f} +- {dener_calibration:.3f}\n')
+print(f'calibrazione energia {ener_calibration:.3f} +- {dener_calibration:.3f} keV\n')
 print(f'Risoluzione energetica {NOME_SPETTRO} = {100*RISOLUZIONE:.3f} +- {100*DRISOLUZIONE:.3f} %\n')
