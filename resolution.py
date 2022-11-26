@@ -5,10 +5,12 @@ import adj_chan as adj
 
 
 """
+-----------------------------------------------------------------------------
 Calcolo della risoluzione energetica dalla media e deviazione standard date
 dal fit gaussiano allo spettro al netto di fondo e continuum, in adj_chan.
 La media trovata viene convertita in energia [keV] attraverso la calibrazione,
 data dal fit in linearfit.
+-----------------------------------------------------------------------------
 """
 
 NOME_SPETTRO = adj.NOME_SPETTRO + '_res.txt'
