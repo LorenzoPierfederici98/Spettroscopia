@@ -1,0 +1,4 @@
+2022-11-26 01:21:08,288:INFO:calibrazione energia 667.021 +- 4.287
+
+2022-11-26 01:21:08,288:INFO:Risoluzione energetica Cs137 = 7.159 +- 0.226 %
+

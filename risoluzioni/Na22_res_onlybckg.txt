@@ -1,0 +1,8 @@
+2022-11-26 12:27:22,249:INFO:calibrazione energia 1269.728 +- 8.483
+
+2022-11-26 12:27:22,250:INFO:Risoluzione energetica Na22 = 5.729 +- 0.184 %
+
+2022-11-26 12:28:01,483:INFO:calibrazione energia 521.801 +- 3.317
+
+2022-11-26 12:28:01,483:INFO:Risoluzione energetica Na22 = 7.863 +- 0.274 %
+

@@ -13,23 +13,31 @@ ampiezza ed offset.
 """
 
 PATH = 'C:/Users/Lorenzo/Desktop/Lab/Spettroscopia/spettri'  # percorso dei file .txt
-NOME_SPETTRO = 'Ba133_1.txt'  # modificare con il nome del file
+NOME_SPETTRO = 'Am241_1.txt'  # modificare con il nome del file
 PATH = os.path.join(PATH, NOME_SPETTRO)
 
 # mette i risultati del fit nel file NOME_SPETTROlog.txt
-#logging.basicConfig(filename=NOME_SPETTRO.replace('txt', '_bckg_log.txt'),
-                    #level=logging.INFO, format='%(asctime)s:%(levelname)s:%(message)s')
+# logging.basicConfig(filename=NOME_SPETTRO.replace('txt', '_bckg_log.txt'),
+# level=logging.INFO, format='%(asctime)s:%(levelname)s:%(message)s')
 
 # salta i commenti ed acquisice i conteggi dei canali 0-2047
 counts = np.loadtxt(PATH, skiprows=12, max_rows=2048, unpack=True)
 channels = np.array([i for i in range(0, 2048)],
                     dtype=float)  # numero di canali
 
-# canali vicino al picco, da n a n_max-1
-channels1 = np.array([channels[i] for i in range(441, 545)], dtype=float)
-counts1 = np.array([counts[i] for i in range(441, 545)], dtype=float)
+#ch1 Am: 69-110, Ba: 34-65, 98-147, 364-441, 441-545
+#Co: 1420-1584, 1600-1790, Na: 600-750, 1550-1711 
+#Cs_1: 790-940 
 
-init_values = [482., 19., 30000., 75.]
+# canali vicino al picco, da n a n_max-1
+channels1 = np.array([channels[i] for i in range(69, 110)], dtype=float)
+counts1 = np.array([counts[i] for i in range(69, 110)], dtype=float)
+
+PATH_LOGS = 'C:/Users/Lorenzo/Desktop/Lab/Spettroscopia/logs'
+NOME_LOG = NOME_SPETTRO.replace('.txt', '.log.txt')
+PATH_LOGS = os.path.join(PATH_LOGS, NOME_LOG)
+init_values = [np.loadtxt(PATH_LOGS, skiprows=1, usecols=(0, 2, 4, 6),
+                          max_rows=1, unpack=True)]
 
 def gaussiana(x, mu, sigma, A, B):
     """Funzione per fit gaussiano channels-counts. A è l'ampiezza della gaussiana
@@ -92,6 +100,7 @@ class FitGauss:
     def __iter__(self):
         return Fit_iterator(self)
 
+
 def risultati(F):
     """"Restituisce i risultati del fit, in ordine: media, sigma, A, B.
     Prende in input la classe per il fit."""
@@ -105,6 +114,7 @@ def risultati(F):
             break
     return elem
 
+
 if __name__ == '__main__':
 
     F = FitGauss(channels1, counts1, init_values)
@@ -114,5 +124,7 @@ if __name__ == '__main__':
     A0 = risultati[2]
     B0 = risultati[3]
     dm, dsigma, dA, dB = np.sqrt(F.covm.diagonal())
+    print(f'{A0} +- {dA}')
+    print(f'{B0} +- {dB}')
     #log_results(channels1, mu0, dm, sigma0, dsigma, A0, dA, B0, dB)
     plot_results(channels1, counts1, mu0, sigma0, A0, B0, NOME_SPETTRO)
