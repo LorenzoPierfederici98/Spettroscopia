@@ -9,7 +9,8 @@ Metodo per trovare il fondo con i canali adiacenti al picco.
 """
 
 NOME_BCKG = 'fondo_54437.txt'
-PATH_BCKG = os.path.join('C:/Users/Lorenzo/Desktop/Lab/Spettroscopia/spettri/', NOME_BCKG)
+PATH_BCKG = os.path.join(
+    'C:/Users/Lorenzo/Desktop/Lab/Spettroscopia/spettri/', NOME_BCKG)
 
 background = np.loadtxt(PATH_BCKG, skiprows=12, max_rows=2048, unpack=True)
 
@@ -23,19 +24,21 @@ counts = fit.counts
 channels1 = fit.channels1
 counts1 = fit.counts1
 
-NOME_SPETTRO = NOME_SPETTRO.replace('_1.txt', '')
+NOME_SPETTRO = NOME_SPETTRO.replace('.txt', '')
 
-#live time di acquisizione del background e dei radionuclidi
+# live time di acquisizione del background e dei radionuclidi
 LIVE_TIME_BCKG = 54437
 LIVE_TIME = {'Am241': 271, 'Ba133': 233,
              'Co60': 344, 'Na22': 1517, 'Cs137': 194}
-#LIVE_TIME_Cs3 = 1380
-
-#il background è riscalato con il rapporto fra il live time della
-#misura dello spettro ed il live time della misura del fondo senza
-#sorgente
-background = background * LIVE_TIME[NOME_SPETTRO]/LIVE_TIME_BCKG
-#background = background * LIVE_TIME_Cs3/LIVE_TIME_BCKG
+LIVE_TIME_Cs3 = 1380
+# live time del cesio con _sx, x spessori
+LIVE_TIME_CS = {'Cs137_s0': 1207, 'Cs137_s2': 544,
+                'Cs137_s3': 594, 'Cs137_s4': 713, 'Cs137_s5': 808}
+# il background è riscalato con il rapporto fra il live time della
+# misura dello spettro ed il live time della misura del fondo senza
+# sorgente
+#background = background * LIVE_TIME_CS[NOME_SPETTRO]/LIVE_TIME_BCKG * np.exp(-0.1*5.7*11.34)
+background = background * LIVE_TIME_Cs3/LIVE_TIME_BCKG
 init_values = fit.init_values
 
 F = fit.FitGauss(channels1, counts1, init_values)
@@ -47,14 +50,14 @@ B0 = risultati[3]
 dm, dsigma, dA, dB = np.sqrt(F.covm.diagonal())
 
 
-#canali a 3 sigma dal picco, trovato con il fit
+# canali a 3 sigma dal picco, trovato con il fit
 A = int(np.floor(mu0 - 3*sigma0))
 B = int(np.floor(mu0 + 3*sigma0))
 
-#numero di canali da mediare prima di A e dopo B
+# numero di canali da mediare prima di A e dopo B
 m = 5
 
-#media dei conteggi degli m canali prima di A e dopo B
+# media dei conteggi degli m canali prima di A e dopo B
 mu_i = 0
 mu_f = 0
 for i in range(m+1):
@@ -66,12 +69,12 @@ mu_f = mu_f/m
 mu_i = int(np.floor(mu_i))
 mu_f = int(np.floor(mu_f))
 
-#media degli m canali prima di A e dopo B
+# media degli m canali prima di A e dopo B
 chan_i = A
 chan_f = B
 for i in range(m):
     chan_i += - 1/m
-    chan_f +=  1/m
+    chan_f += 1/m
 
 chan_i = int(np.floor(chan_i))
 chan_f = int(np.floor(chan_f))
@@ -94,27 +97,32 @@ BCKG = 0
 for i in range(chan_i, chan_f):
     BCKG += background[i]
 
-#area ottenuta sottraendo continuum e fondo ai dati
-AREA_NETTA = AREA_TOT - BCKG - AREA_CONTINUUM
-SIGMA_NETTA = np.sqrt(VAR_AREA_TOT + BCKG + VAR_FONDO)
+# area ottenuta sottraendo continuum e fondo ai dati
+AREA_NETTA = AREA_TOT - AREA_CONTINUUM #- BCKG
+SIGMA_NETTA = np.sqrt(VAR_AREA_TOT + VAR_FONDO) # + BCKG)
+
 
 def retta(x, y, A, B):
     """Interpolazione lineare fra i punti A e B del continuum."""
     return ((x - A)/(B - A))*(y[B] - y[A]) + y[A]
 
+
 x = np.linspace(chan_i, chan_f, N)
 retta = retta(x, counts, chan_i, chan_f)
 
-channels_restrict = np.array([])#canali ristretti fra A e B, per plottare la retta
-counts_restrict = np.array([])#conteggi ristretti fra A e B, per il fit allo spettro netto
-spettro_netto = np.array([])#spettro a cui si sottraggono fondo e continuum
+# canali ristretti fra A e B, per plottare la retta
+channels_restrict = np.array([])
+# conteggi ristretti fra A e B, per il fit allo spettro netto
+counts_restrict = np.array([])
+spettro_netto = np.array([])  # spettro a cui si sottraggono fondo e continuum
 
 
 for i in range(chan_i, chan_f):
-    spettro_netto = np.append(spettro_netto, counts[i] - retta[i - chan_i] - background[i])
+    spettro_netto = np.append(
+        spettro_netto, counts[i] - retta[i - chan_i]) #- background[i])
 
 for i in range(chan_i, chan_f):
-    channels_restrict = np.append(channels_restrict, channels[i]) 
+    channels_restrict = np.append(channels_restrict, channels[i])
     counts_restrict = np.append(counts_restrict, counts[i])
 
 init_values = [mu0, sigma0, A0, 0]
@@ -141,9 +149,11 @@ plt.title(NOME_SPETTRO + ' ' + 'con continuum e background')
 plt.xlabel('Channels [UA]')
 plt.ylabel('Counts [UA]')
 plt.plot(channels, counts, marker='o', color='b', label='Dati')
-plt.plot(channels, background, marker = 'o', label = 'Fondo true')
-plt.plot(x, retta, marker = 'o', label = 'Retta fra la media dei punti a $\pm$ $3\sigma$ dal picco')
-plt.plot(channels_restrict, spettro_netto, marker = 'o', label = 'Spettro al netto di fondo e continuum')
+plt.plot(channels, background, marker='o', label='Fondo true')
+plt.plot(x, retta, marker='o',
+         label='Retta fra la media dei punti a $\pm$ $3\sigma$ dal picco')
+plt.plot(channels_restrict, spettro_netto, marker='o',
+         label='Spettro al netto di fondo e continuum')
 plt.minorticks_on()
 plt.legend()
 plt.show()
