@@ -1,0 +1,7 @@
+Attività prevista per il Cs137_3: 49.218 kBq
+
+Angolo solido (formula non approssimata) = 0.0506 +- 0.0005 strad
+
+Attività misurata sottraendo solo il continuum: 40.9 +- 4.1 kBq
+
+Attività misurata sottraendo solo il fondo: 45.6 +- 4.6 kBq
