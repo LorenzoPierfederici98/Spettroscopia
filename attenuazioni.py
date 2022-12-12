@@ -3,12 +3,18 @@ import matplotlib.pyplot as plt
 from scipy.optimize import curve_fit
 
 #fit per trovare il coefficiente di attenuazione
-#le aree sotto ai picchi sono state prese sottraendo il continuum ed il fondo naturale
+#le aree sotto ai picchi sono state prese sottraendo solo il continuum o solo il fondo naturale
 #scalato con l'attenuazione del Pb.
 
-A = np.array([3393, 1202, 1278, 852, 732])
+#Solo continuum
+A = np.array([3399, 1204, 1281, 855, 736])
 dA = np.array([275, 164, 200, 205, 222])
 
+#Solo fondo
+#A = np.array([4214, 1487, 1304, 1342, 1264])
+#dA = np.array([107, 65, 74, 74, 78])
+
+#Spessori in cm
 x = np.array([0, 2*0.150, 3*0.150, 4*0.150, 5*0.150])
 dx = np.array([0, 2*0.005, 3*0.005, 4*0.005, 5*0.005])
 
@@ -34,18 +40,20 @@ a0, b0 = pars
 da, db = np.sqrt(covm.diagonal())
 
 dy = np.sqrt(dA**2 + (-b0*a0*np.exp(-b0*t))**2*dt**2)
-pars1, covm1 = curve_fit(esponenziale, t, A, init_values, dy)
-a1, b1 = pars1
-da1, db1 = np.sqrt(covm1.diagonal())
-chisq = (((A - esponenziale(t, *pars1))/dy)**2).sum()
+pars, covm = curve_fit(esponenziale, t, A, init_values, dy)
+a0, b0 = pars
+da, db = np.sqrt(covm.diagonal())
+chisq = (((A - esponenziale(t, *pars))/dy)**2).sum()
 ndof = len(A) - 2
 print(f'chisq/ndof = {chisq:.3f}/{ndof}\n')
-print(f'mu_Pb = {b1:.3f} +- {db1:.3f}\n')
+print(f'I0 = {a0:.3f} +- {da:.3f} counts/s\n')
+print(f'mu_Pb = {b0:.3f} +- {db:.3f} cm^2/g\n')
 
+plt.title('Intensità al variare degli spessori per il Cs137')
 plt.errorbar(t, A, dA, dt, marker = 'o', linestyle = '')
 xx = np.linspace(t[0], t[-1], 1000)
-plt.plot(xx, esponenziale(xx, *pars))
-plt.xlabel('Spessori massici [$\dfrac{g}{cm^2}$]')
-plt.ylabel('Intensità [$\dfrac{conteggi}{s}$]')
+plt.plot(xx, esponenziale(xx, *pars), color = 'r')
+plt.xlabel('t [$\dfrac{g}{cm^2}$]')
+plt.ylabel('I [$\dfrac{conteggi}{s}$]')
 plt.minorticks_on()
 plt.show()

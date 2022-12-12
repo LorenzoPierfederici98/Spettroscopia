@@ -24,7 +24,7 @@ counts = fit.counts
 channels1 = fit.channels1
 counts1 = fit.counts1
 
-NOME_SPETTRO = NOME_SPETTRO.replace('_3.txt', '')
+NOME_SPETTRO = NOME_SPETTRO.replace('.txt', '')
 
 # live time di acquisizione del background e dei radionuclidi
 LIVE_TIME_BCKG = 54437
@@ -37,12 +37,14 @@ LIVE_TIME_CS = {'Cs137_s0': 1207, 'Cs137_s2': 544,
 # il background è riscalato con il rapporto fra il live time della
 # misura dello spettro ed il live time della misura del fondo senza
 # sorgente
+
 #background = background * LIVE_TIME[NOME_SPETTRO]/LIVE_TIME_BCKG
-background = background * LIVE_TIME_Cs3/LIVE_TIME_BCKG
+#background = background * LIVE_TIME_Cs3/LIVE_TIME_BCKG
+background = background * LIVE_TIME_CS[NOME_SPETTRO]/LIVE_TIME_BCKG
 init_values = fit.init_values
 
 #Switch per calcolare l'area netta sottraendo solo fondo o solo continuum
-FONDO = False
+FONDO = True
 CONTINUUM = 1 - FONDO
 
 F = fit.FitGauss(channels1, counts1, init_values)
@@ -166,8 +168,12 @@ plt.plot(channels, counts, marker='o', color='b', label='Dati')
 plt.plot(channels, background, marker='o', label='Fondo true')
 plt.plot(x, retta, marker='o',
          label='Retta fra la media dei punti a $\pm$ $3\sigma$ dal picco')
-plt.plot(channels_restrict, spettro_netto, marker='o',
-         label='Spettro al netto di fondo e continuum')
+if FONDO:
+    plt.plot(channels_restrict, spettro_netto, marker='o',
+            label='Spettro al netto del fondo')
+if CONTINUUM:
+    plt.plot(channels_restrict, spettro_netto, marker='o',
+            label='Spettro al netto del continuum')
 plt.minorticks_on()
 plt.legend()
 plt.show()
