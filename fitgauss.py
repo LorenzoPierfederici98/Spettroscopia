@@ -13,7 +13,7 @@ ampiezza ed offset.
 """
 
 PATH = 'C:/Users/Lorenzo/Desktop/Lab/Spettroscopia/spettri'  # percorso dei file .txt
-NOME_SPETTRO = 'Cs137_3.txt'  # modificare con il nome del file
+NOME_SPETTRO = 'Cs137_s5.txt'  # modificare con il nome del file
 PATH = os.path.join(PATH, NOME_SPETTRO)
 
 #mette i risultati del fit nel file NOME_SPETTROlog.txt
@@ -25,7 +25,7 @@ counts = np.loadtxt(PATH, skiprows=12, max_rows=2048, unpack=True)
 channels = np.array([i for i in range(0, 2048)],
                     dtype=float)  # numero di canali
 
-#ch1 Am: 69-110, Ba: 34-65, 98-147, 364-441, 441-545
+#ch1 Am: 69-110, Ba: 34-65, 98-147, 364-441, 441-545 estremi inclusi
 #Co: 1420-1584, 1600-1790, Na: 600-750, 1550-1711 
 #Cs_1: 790-940 = CS_3
 
@@ -35,7 +35,7 @@ counts1 = np.array([counts[i] for i in range(790, 940)], dtype=float)
 
 #assegna i valori iniziali per il primo fit in adj_chan
 PATH_LOGS = 'C:/Users/Lorenzo/Desktop/Lab/Spettroscopia/logs'
-NOME_LOG = NOME_SPETTRO.replace('_3.txt', '_1.log.txt')
+NOME_LOG = NOME_SPETTRO.replace('_s5.txt', '_1.log.txt')
 PATH_LOGS = os.path.join(PATH_LOGS, NOME_LOG)
 init_values = [np.loadtxt(PATH_LOGS, skiprows=1, usecols=(0, 2, 4, 6),
                           max_rows=1, unpack=True)]

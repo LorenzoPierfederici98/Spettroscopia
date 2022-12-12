@@ -1,0 +1,20 @@
+Stima del coefficiente di attenuazione del piombo dall'acquisizione degli spettri di Cs137 a 15.9 cm dal rivelatore
+
+con diversi spessori di piombo (lastre di 0.910 +- 0.005 cm). Si è sottratto il fondo utilizzando il metodo dei canali
+
+adiacenti
+
+Spessori	Area_Netta
+s0		3399 +- 275
+s2		1204 +- 164
+s3		1281 +- 200
+s4		855 +- 205
+s5		736 +- 222
+
+Dal fit esponenziale si ha: 
+
+mu_Pb = 0.11 +- 0.02 cm^2/g		mu_atteso = 0.10675 cm^2/g @E media fra 0.6-0.8 MeV
+
+I0 = 2.9 +- 0.3 conteggi/s
+
+chisq/ndof = 3.883/3
