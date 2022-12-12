@@ -16,9 +16,9 @@ PATH = 'C:/Users/Lorenzo/Desktop/Lab/Spettroscopia/spettri'  # percorso dei file
 NOME_SPETTRO = 'Cs137_3.txt'  # modificare con il nome del file
 PATH = os.path.join(PATH, NOME_SPETTRO)
 
-# mette i risultati del fit nel file NOME_SPETTROlog.txt
-# logging.basicConfig(filename=NOME_SPETTRO.replace('txt', '_bckg_log.txt'),
-# level=logging.INFO, format='%(asctime)s:%(levelname)s:%(message)s')
+#mette i risultati del fit nel file NOME_SPETTROlog.txt
+#logging.basicConfig(filename=NOME_SPETTRO.replace('txt', '_bckg_log.txt'),
+#level=logging.INFO, format='%(asctime)s:%(levelname)s:%(message)s')
 
 # salta i commenti ed acquisice i conteggi dei canali 0-2047
 counts = np.loadtxt(PATH, skiprows=12, max_rows=2048, unpack=True)
@@ -27,12 +27,13 @@ channels = np.array([i for i in range(0, 2048)],
 
 #ch1 Am: 69-110, Ba: 34-65, 98-147, 364-441, 441-545
 #Co: 1420-1584, 1600-1790, Na: 600-750, 1550-1711 
-#Cs_1: 790-940 
+#Cs_1: 790-940 = CS_3
 
-# canali vicino al picco, da n a n_max-1
+#canali vicino al picco, da n a n_max-1
 channels1 = np.array([channels[i] for i in range(790, 940)], dtype=float)
 counts1 = np.array([counts[i] for i in range(790, 940)], dtype=float)
 
+#assegna i valori iniziali per il primo fit in adj_chan
 PATH_LOGS = 'C:/Users/Lorenzo/Desktop/Lab/Spettroscopia/logs'
 NOME_LOG = NOME_SPETTRO.replace('_3.txt', '_1.log.txt')
 PATH_LOGS = os.path.join(PATH_LOGS, NOME_LOG)

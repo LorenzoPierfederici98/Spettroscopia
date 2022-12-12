@@ -11,8 +11,8 @@ channels = np.array([i for i in range(0, 2048)], dtype = float) #numero di canal
 
 if __name__ == '__main__':
     plt.plot(channels, counts, marker = 'o')
-    NOME_SPETTRO = NOME_SPETTRO.replace('_2.txt', '')
-    NOME_SPETTRO = NOME_SPETTRO.replace('_1.txt', '')
+    NOME_SPETTRO = NOME_SPETTRO.replace('_3.txt', '')
+    #NOME_SPETTRO = NOME_SPETTRO.replace('_1.txt', '')
     plt.title('Channels vs counts' + ' ' + NOME_SPETTRO)
     plt.xlabel('Channels')
     plt.ylabel('Counts')

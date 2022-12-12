@@ -24,7 +24,7 @@ counts = fit.counts
 channels1 = fit.channels1
 counts1 = fit.counts1
 
-NOME_SPETTRO = NOME_SPETTRO.replace('.txt', '')
+NOME_SPETTRO = NOME_SPETTRO.replace('_3.txt', '')
 
 # live time di acquisizione del background e dei radionuclidi
 LIVE_TIME_BCKG = 54437
@@ -37,9 +37,13 @@ LIVE_TIME_CS = {'Cs137_s0': 1207, 'Cs137_s2': 544,
 # il background è riscalato con il rapporto fra il live time della
 # misura dello spettro ed il live time della misura del fondo senza
 # sorgente
-#background = background * LIVE_TIME_CS[NOME_SPETTRO]/LIVE_TIME_BCKG * np.exp(-0.1*5.7*11.34)
+#background = background * LIVE_TIME[NOME_SPETTRO]/LIVE_TIME_BCKG
 background = background * LIVE_TIME_Cs3/LIVE_TIME_BCKG
 init_values = fit.init_values
+
+#Switch per calcolare l'area netta sottraendo solo fondo o solo continuum
+FONDO = False
+CONTINUUM = 1 - FONDO
 
 F = fit.FitGauss(channels1, counts1, init_values)
 risultati = fit.risultati(F)
@@ -98,9 +102,15 @@ for i in range(chan_i, chan_f):
     BCKG += background[i]
 
 # area ottenuta sottraendo continuum e fondo ai dati
-AREA_NETTA = AREA_TOT - AREA_CONTINUUM #- BCKG
-SIGMA_NETTA = np.sqrt(VAR_AREA_TOT + VAR_FONDO) # + BCKG)
+#AREA_NETTA = AREA_TOT - AREA_CONTINUUM - BCKG
+#SIGMA_NETTA = np.sqrt(VAR_AREA_TOT + VAR_FONDO + BCKG)
 
+if FONDO:
+    AREA_NETTA = AREA_TOT - BCKG
+    SIGMA_NETTA = np.sqrt(VAR_AREA_TOT + BCKG)
+if CONTINUUM:
+    AREA_NETTA = AREA_TOT - AREA_CONTINUUM
+    SIGMA_NETTA = np.sqrt(VAR_AREA_TOT + VAR_FONDO)
 
 def retta(x, y, A, B):
     """Interpolazione lineare fra i punti A e B del continuum."""
@@ -110,20 +120,24 @@ def retta(x, y, A, B):
 x = np.linspace(chan_i, chan_f, N)
 retta = retta(x, counts, chan_i, chan_f)
 
-# canali ristretti fra A e B, per plottare la retta
+#canali ristretti fra A e B, per plottare la retta
 channels_restrict = np.array([])
-# conteggi ristretti fra A e B, per il fit allo spettro netto
+#conteggi ristretti fra A e B, per il fit allo spettro netto
 counts_restrict = np.array([])
-spettro_netto = np.array([])  # spettro a cui si sottraggono fondo e continuum
+spettro_netto = np.array([])  #spettro a cui si sottraggono fondo e continuum
 
 
 for i in range(chan_i, chan_f):
-    spettro_netto = np.append(
-        spettro_netto, counts[i] - retta[i - chan_i]) #- background[i])
+    if FONDO:
+        spettro_netto = np.append(
+            spettro_netto, counts[i] - background[i])
+    if CONTINUUM:
+        spettro_netto = np.append(spettro_netto, counts[i] - retta[i - chan_i])
 
 for i in range(chan_i, chan_f):
     channels_restrict = np.append(channels_restrict, channels[i])
     counts_restrict = np.append(counts_restrict, counts[i])
+
 
 init_values = [mu0, sigma0, A0, 0]
 F1 = fit.FitGauss(channels_restrict, spettro_netto, init_values)
@@ -136,12 +150,12 @@ B1 = risultati1[3]
 dm1, dsigma1, dA1, dB1 = np.sqrt(F1.covm.diagonal())
 FWHM = 2.35*sigma1
 
+if FONDO:
+    print('Dati sottraendo solo il fondo:\n')
+if CONTINUUM:
+    print('Dati sottraendo solo il continuum:\n')
 print(f'Area continuum = {AREA_CONTINUUM:.3f} +- {SIGMA_FONDO:.3f}\n')
 print(f'Area netta = {AREA_NETTA:.3f} +- {SIGMA_NETTA:.3f}\n')
-#print(f'media = {mu0:.3f} +- {dm:.3f}\n')
-#print(f'sigma = {sigma0:.3f} +- {dsigma:.3f}\n')
-#print(f'A = {A0:.3f} +- {dA:.3f}\n')
-#print(f'B = {B0:.3f} +- {dB:.3f}\n')
 print(f'media netta = {mu1:.3f} +- {dm1:.3f}\n')
 print(f'sigma netta = {sigma1:.3f} +- {dsigma1:.3f}\n')
 
