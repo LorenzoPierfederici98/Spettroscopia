@@ -13,7 +13,7 @@ ampiezza ed offset.
 """
 
 PATH = 'C:/Users/Lorenzo/Desktop/Lab/Spettroscopia/spettri'  # percorso dei file .txt
-NOME_SPETTRO = 'Cs137_s5.txt'  # modificare con il nome del file
+NOME_SPETTRO = 'Cs137_3.txt'  # modificare con il nome del file
 PATH = os.path.join(PATH, NOME_SPETTRO)
 
 #mette i risultati del fit nel file NOME_SPETTROlog.txt
@@ -35,7 +35,7 @@ counts1 = np.array([counts[i] for i in range(790, 940)], dtype=float)
 
 #assegna i valori iniziali per il primo fit in adj_chan
 PATH_LOGS = 'C:/Users/Lorenzo/Desktop/Lab/Spettroscopia/logs'
-NOME_LOG = NOME_SPETTRO.replace('_s5.txt', '_1.log.txt')
+NOME_LOG = NOME_SPETTRO.replace('_3.txt', '_1.log.txt')
 PATH_LOGS = os.path.join(PATH_LOGS, NOME_LOG)
 init_values = [np.loadtxt(PATH_LOGS, skiprows=1, usecols=(0, 2, 4, 6),
                           max_rows=1, unpack=True)]
@@ -127,5 +127,6 @@ if __name__ == '__main__':
     dm, dsigma, dA, dB = np.sqrt(F.covm.diagonal())
     print(f'{A0} +- {dA}')
     print(f'{B0} +- {dB}')
+    print(f'{sigma0:.3f} +- {dsigma:.3f}\n')
     #log_results(channels1, mu0, dm, sigma0, dsigma, A0, dA, B0, dB)
     plot_results(channels1, counts1, mu0, sigma0, A0, B0, NOME_SPETTRO)
