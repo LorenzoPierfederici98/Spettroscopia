@@ -24,8 +24,8 @@ chisq = (((Energy - linear_fit(Channel, *pars))/dChannel)**2).sum()
 ndof = len(Energy) - 2
 
 if __name__ == '__main__':
-    print(f'a = {a0:.3f} +- {da:.3f}')
-    print(f'b = {b0:.3f} +- {db:.3f}')
+    print(f'a = {a0:.3f} +- {da:.3f} keV/canale')
+    print(f'b = {b0:.3f} +- {db:.3f} keV')
     print(f'chisq/ndof = {chisq:.3f}/{ndof}')
     print(covm)
 
