@@ -181,7 +181,7 @@ if __name__ == '__main__':
     plt.plot(channels, convolved2, marker='o',
              label='Doppia convoluzione con $-\dfrac{x_{channel}-y}{\delta^2}e^{-\dfrac{(x_{channel}-y)^2}{2\delta^2}}$')
     plt.plot(channels, counts, marker='o', color='b', label='Dati')
-    #plt.plot(channels, fondo, marker='o', color='r', label='Fondo stimato')
+    plt.plot(channels, fondo, marker='o', color='r', label='Fondo stimato')
     #plt.plot(channels, net_counts, marker='o', color='skyblue', label='Net counts')
     plt.plot(channels, background, marker = 'o', label = 'Fondo true')
     plt.minorticks_on()
